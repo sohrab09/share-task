@@ -45,7 +45,7 @@ const Home = () => {
     if (products.length === 0) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <NoProductsFound />
+                <NoProductsFound message={"No products found."} />
             </div>
         );
     };

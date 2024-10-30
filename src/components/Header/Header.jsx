@@ -61,7 +61,7 @@ const Header = () => {
                             </Link>
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <Link to="/" className="text-xl font-semibold text-gray-900">
+                            <Link to="/cart" className="text-xl font-semibold text-gray-900">
                                 <FontAwesomeIcon icon={faCartShopping} /> {" "}
                                 Cart {" "}
                                 {
