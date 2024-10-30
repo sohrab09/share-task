@@ -1,16 +1,30 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons/faHeart";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import useProductStore from '../state/productStore';
 
 const CardLayout = ({ product }) => {
-    const { addToWishlist, removeFromWishlist, wishlist } = useProductStore();
+    const { addToCart, removeFromCart, addToWishlist, removeFromWishlist, cart, wishlist } = useProductStore();
 
     const title = product.title.length > 25 ? product.title.slice(0, 25) + "..." : product.title;
 
+    const cartItem = cart.find(item => item.id === product.id);
+    const isInCart = Boolean(cartItem);
     const isInWishlist = wishlist.some(item => item.id === product.id);
+
+    const handleCartToggle = () => {
+        if (isInCart) {
+            removeFromCart(product.id);
+        } else {
+            addToCart(product);
+        }
+    };
+
+    const handleAddQuantity = () => {
+        addToCart(product);
+    };
 
     const handleWishlistToggle = () => {
         if (isInWishlist) {
@@ -36,10 +50,29 @@ const CardLayout = ({ product }) => {
                 />
 
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center space-y-2 transition-opacity duration-300">
-                    <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4">
-                        <FontAwesomeIcon icon={faCartShopping} /> {" "}
-                        <span>Add to Cart</span>
-                    </button>
+
+                    {isInCart ? (
+                        <button className="bg-green-600 text-slate-100 px-4 py-2 rounded-lg text-sm font-semibold w-3/4">
+                            <FontAwesomeIcon
+                                icon={faTrashCan}
+                                onClick={handleCartToggle}
+                                className="mr-1"
+                            />{" "}
+                            <span>
+                                {cartItem.quantity} Added in Cart
+                            </span>{" "}
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                onClick={handleAddQuantity}
+                                className="ml-1 cursor-pointer"
+                            />
+                        </button>
+                    ) : (
+                        <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4" onClick={handleCartToggle}>
+                            <FontAwesomeIcon icon={faCartShopping} /> {" "}
+                            <span>Add to Cart</span>
+                        </button>
+                    )}
 
                     <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4">
                         <FontAwesomeIcon icon={faEye} /> Quick View

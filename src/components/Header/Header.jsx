@@ -8,7 +8,7 @@ import useProductStore from '../../state/productStore';
 
 const Header = () => {
 
-    const { wishlist } = useProductStore();
+    const { cart, wishlist } = useProductStore();
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -55,7 +55,7 @@ const Header = () => {
                                 Wishlist {" "}
                                 {
                                     wishlist.length > 0 && (
-                                        <span className="text-xl font-semibold text-gray-900">{wishlist.length}</span>
+                                        <span className="text-xl font-semibold text-white bg-green-400 rounded-full p-2">{wishlist.length}</span>
                                     )
                                 }
                             </Link>
@@ -64,6 +64,11 @@ const Header = () => {
                             <Link to="/" className="text-xl font-semibold text-gray-900">
                                 <FontAwesomeIcon icon={faCartShopping} /> {" "}
                                 Cart {" "}
+                                {
+                                    cart.length > 0 && (
+                                        <span className="text-xl font-semibold text-white bg-green-400 rounded-full p-2">{cart.length}</span>
+                                    )
+                                }
                             </Link>
                         </div>
                     </nav>

@@ -5,6 +5,7 @@ const useProductStore = create((set) => ({
     products: [],
     isLoading: false,
     error: null,
+    cart: [],
     wishlist: [],
 
     fetchProducts: async () => {
@@ -17,6 +18,28 @@ const useProductStore = create((set) => ({
         }
     },
 
+    addToCart: (product) => set((state) => {
+        const existingProduct = state.cart.find(item => item.id === product.id);
+
+        if (existingProduct) {
+            return {
+                cart: state.cart.map(item =>
+                    item.id === product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                )
+            };
+        } else {
+            return {
+                cart: [...state.cart, { ...product, quantity: 1 }]
+            };
+        }
+    }),
+
+    removeFromCart: (productId) => set((state) => ({
+        cart: state.cart.filter(product => product.id !== productId)
+    })),
+
     addToWishlist: (product) => set((state) => ({
         wishlist: [...state.wishlist, product]
     })),
@@ -24,6 +47,14 @@ const useProductStore = create((set) => ({
     removeFromWishlist: (productId) => set((state) => ({
         wishlist: state.wishlist.filter(product => product.id !== productId)
     })),
+
+    hasItemsInCart: () => {
+        return (state) => state.cart.length > 0;
+    },
+
+    hasItemsInWishlist: () => {
+        return (state) => state.wishlist.length > 0;
+    }
 }));
 
 export default useProductStore;
