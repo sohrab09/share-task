@@ -36,6 +36,24 @@ const useProductStore = create((set) => ({
         }
     }),
 
+    decreaseQuantity: (productId) => set((state) => {
+        const existingProduct = state.cart.find(item => item.id === productId);
+
+        if (existingProduct.quantity > 1) {
+            return {
+                cart: state.cart.map(item =>
+                    item.id === productId
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                )
+            };
+        } else {
+            return {
+                cart: state.cart.filter(item => item.id !== productId)
+            };
+        }
+    }),
+
     removeFromCart: (productId) => set((state) => ({
         cart: state.cart.filter(product => product.id !== productId)
     })),
