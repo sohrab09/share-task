@@ -3,9 +3,13 @@ import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import useProductStore from '../../state/productStore';
 
 
 const Header = () => {
+
+    const { wishlist } = useProductStore();
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -46,11 +50,21 @@ const Header = () => {
                             </button>
                         </div>
                         <div className="hidden lg:flex lg:gap-x-12">
-                            <Link to="/" className="text-sm/6 font-semibold text-gray-900">Home</Link>
-                            <Link to="/wishlist" className="text-sm/6 font-semibold text-gray-900">Wishlist</Link>
+                            <Link to="/" className="text-xl font-semibold text-gray-900">Home</Link>
+                            <Link to="/wishlist" className="text-xl font-semibold text-gray-900">
+                                Wishlist {" "}
+                                {
+                                    wishlist.length > 0 && (
+                                        <span className="text-xl font-semibold text-gray-900">{wishlist.length}</span>
+                                    )
+                                }
+                            </Link>
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <Link to="/" className="text-sm/6 font-semibold text-gray-900">Cart <FontAwesomeIcon icon={faCartShopping} /></Link>
+                            <Link to="/" className="text-xl font-semibold text-gray-900">
+                                <FontAwesomeIcon icon={faCartShopping} /> {" "}
+                                Cart {" "}
+                            </Link>
                         </div>
                     </nav>
                     {isOpen && (

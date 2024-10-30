@@ -14,7 +14,7 @@ const MainLayout = ({ products }) => {
 };
 
 MainLayout.propTypes = {
-    products: PropTypes.arrayOf().isRequired,
+    products: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default MainLayout;

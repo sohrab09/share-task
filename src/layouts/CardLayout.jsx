@@ -3,17 +3,28 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
-
+import useProductStore from '../state/productStore';
 
 const CardLayout = ({ product }) => {
+    const { addToWishlist, removeFromWishlist, wishlist } = useProductStore();
 
-    const title = product.title.length > 25 ? product.title.slice(0, 25) + "..." : product.title
+    const title = product.title.length > 25 ? product.title.slice(0, 25) + "..." : product.title;
+
+    const isInWishlist = wishlist.some(item => item.id === product.id);
+
+    const handleWishlistToggle = () => {
+        if (isInWishlist) {
+            removeFromWishlist(product.id);
+        } else {
+            addToWishlist(product);
+        }
+    };
 
     return (
         <div key={product.id} className="p-3 relative group hover:shadow-lg rounded-lg">
             {product.discountPercentage && (
                 <div className="absolute top-6 left-2 bg-orange-500 text-white px-2 py-1 rounded text-xs font-semibold">
-                    -৳{product.discountPercentage}
+                    -<span className="text-orange-100 text-base mr-1">৳</span>{product.discountPercentage}
                 </div>
             )}
 
@@ -26,15 +37,22 @@ const CardLayout = ({ product }) => {
 
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center space-y-2 transition-opacity duration-300">
                     <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4">
-                        <FontAwesomeIcon icon={faCartShopping} /> Add to Cart
+                        <FontAwesomeIcon icon={faCartShopping} /> {" "}
+                        <span>Add to Cart</span>
                     </button>
+
                     <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4">
                         <FontAwesomeIcon icon={faEye} /> Quick View
                     </button>
                 </div>
 
                 <div className="absolute top-4 right-4 text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button><FontAwesomeIcon icon={faHeart} /></button>
+                    <button onClick={handleWishlistToggle}>
+                        <FontAwesomeIcon
+                            icon={faHeart}
+                            color={isInWishlist ? "red" : "green"}
+                        />
+                    </button>
                 </div>
             </div>
 
@@ -55,7 +73,7 @@ const CardLayout = ({ product }) => {
                 )}
             </div>
         </div>
-    )
+    );
 }
 
 CardLayout.propTypes = {
