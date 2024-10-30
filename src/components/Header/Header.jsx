@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 
 const Header = () => {
@@ -47,7 +49,9 @@ const Header = () => {
                             <Link to="/" className="text-sm/6 font-semibold text-gray-900">Home</Link>
                             <Link to="/wishlist" className="text-sm/6 font-semibold text-gray-900">Wishlist</Link>
                         </div>
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end"></div>
+                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                            <Link to="/" className="text-sm/6 font-semibold text-gray-900">Cart <FontAwesomeIcon icon={faCartShopping} /></Link>
+                        </div>
                     </nav>
                     {isOpen && (
                         <div className="lg:hidden" role="dialog" aria-modal="true">
@@ -85,7 +89,9 @@ const Header = () => {
                                             <Link to="/" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</Link>
                                             <Link to="/wishlist" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Wishlist</Link>
                                         </div>
-
+                                        <div className="py-6">
+                                            <Link to="/" className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-50">Cart <FontAwesomeIcon icon={faCartShopping} /></Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
