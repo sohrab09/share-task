@@ -4,7 +4,7 @@ const Pagination = ({ currentPage, productsPerPage, totalProducts, paginate }) =
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
     return (
-        <nav aria-label="Page navigation" className="rounded-lg shadow-lg p-4">
+        <nav aria-label="Page navigation" className="rounded-lg p-4">
             <ul className="flex justify-center space-x-2">
                 <li>
                     <button

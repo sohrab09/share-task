@@ -6,7 +6,7 @@ const MainLayout = ({ products }) => {
         <div className="flex items-center justify-center py-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-7xl px-4">
                 {products.map((product) => (
-                    <CardLayout key={product.id} product={product} />
+                    <CardLayout product={{ ...product, brand: product.brand || 'Unknown Brand' }} key={product.id} />
                 ))}
             </div>
         </div>
@@ -14,7 +14,7 @@ const MainLayout = ({ products }) => {
 };
 
 MainLayout.propTypes = {
-    products: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    products: PropTypes.array.isRequired,
 };
 
 export default MainLayout;
