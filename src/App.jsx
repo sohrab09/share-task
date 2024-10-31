@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,8 +8,15 @@ import Home from './pages/Home/Home';
 import Cart from "./pages/Cart/Cart";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import Product from "./pages/Product/Product";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 function App() {
+
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, [])
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">

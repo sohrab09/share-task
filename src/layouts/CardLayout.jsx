@@ -41,7 +41,7 @@ const CardLayout = ({ product }) => {
     };
 
     return (
-        <div key={product.id} className="p-3 relative group hover:shadow-lg rounded-lg">
+        <div key={product.id} className="p-3 relative group hover:shadow-lg rounded-lg" data-aos="fade-down">
             {product.discountPercentage && (
                 <div className="absolute top-6 left-2 bg-orange-500 text-white px-2 py-1 rounded text-xs font-semibold">
                     -<span className="text-orange-100 text-base mr-1">৳</span>{product.discountPercentage}
