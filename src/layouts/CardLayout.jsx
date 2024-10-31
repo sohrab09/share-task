@@ -76,12 +76,12 @@ const CardLayout = ({ product }) => {
                     ) : (
                         <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4" onClick={handleCartToggle}>
                             <FontAwesomeIcon icon={faCartShopping} /> {" "}
-                            <span>Add to Cart</span>
+                            <span className="font-bold">Add to Cart</span>
                         </button>
                     )}
 
                     <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4" onClick={handleViewDetail(product)}>
-                        <FontAwesomeIcon icon={faEye} /> Quick View
+                        <FontAwesomeIcon icon={faEye} /> <span className="font-bold">Quick View</span>
                     </button>
                 </div>
 
