@@ -51,22 +51,23 @@ const Header = () => {
                         </div>
                         <div className="hidden lg:flex lg:gap-x-12">
                             <Link to="/" className="text-xl font-semibold text-gray-900">Home</Link>
-                            <Link to="/wishlist" className="text-xl font-semibold text-gray-900">
-                                Wishlist {" "}
-                                {
-                                    wishlist.length > 0 && (
-                                        <span className="text-xl font-semibold text-white bg-green-400 rounded-full p-2">{wishlist.length}</span>
-                                    )
-                                }
+                            <Link to="/wishlist" className="flex items-center text-xl font-semibold text-gray-900 hover:text-gray-700 transition-colors duration-200">
+                                Wishlist
+                                {wishlist.length > 0 && (
+                                    <span className="ml-2 text-sm font-semibold text-white bg-green-400 rounded-full h-8 w-8 flex items-center justify-center">
+                                        {wishlist.length}
+                                    </span>
+                                )}
                             </Link>
+
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <Link to="/cart" className="text-xl font-semibold text-gray-900">
+                            <Link to="/cart" className="flex items-center text-xl font-semibold text-gray-900 hover:text-gray-700 transition-colors duration-200">
                                 <FontAwesomeIcon icon={faCartShopping} /> {" "}
                                 Cart {" "}
                                 {
                                     cart.length > 0 && (
-                                        <span className="text-xl font-semibold text-white bg-green-400 rounded-full p-2">{cart.length}</span>
+                                        <span className="ml-2 text-sm font-semibold text-white bg-green-400 rounded-full h-8 w-8 flex items-center justify-center">{cart.length}</span>
                                     )
                                 }
                             </Link>

@@ -5,8 +5,8 @@ const useProductStore = create((set) => ({
     products: [],
     isLoading: false,
     error: null,
-    cart: [],
-    wishlist: [],
+    cart: JSON.parse(localStorage.getItem('cart')) || [], // Initialize from local storage
+    wishlist: JSON.parse(localStorage.getItem('wishlist')) || [], // Initialize from local storage
 
     fetchProducts: async () => {
         set({ isLoading: true, error: null });
@@ -21,50 +21,53 @@ const useProductStore = create((set) => ({
     addToCart: (product) => set((state) => {
         const existingProduct = state.cart.find(item => item.id === product.id);
 
-        if (existingProduct) {
-            return {
-                cart: state.cart.map(item =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                )
-            };
-        } else {
-            return {
-                cart: [...state.cart, { ...product, quantity: 1 }]
-            };
-        }
+        const newCart = existingProduct
+            ? state.cart.map(item =>
+                item.id === product.id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            )
+            : [...state.cart, { ...product, quantity: 1 }];
+
+        localStorage.setItem('cart', JSON.stringify(newCart)); // Update local storage
+        return { cart: newCart };
     }),
 
     decreaseQuantity: (productId) => set((state) => {
         const existingProduct = state.cart.find(item => item.id === productId);
+        let newCart;
 
         if (existingProduct.quantity > 1) {
-            return {
-                cart: state.cart.map(item =>
-                    item.id === productId
-                        ? { ...item, quantity: item.quantity - 1 }
-                        : item
-                )
-            };
+            newCart = state.cart.map(item =>
+                item.id === productId
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+            );
         } else {
-            return {
-                cart: state.cart.filter(item => item.id !== productId)
-            };
+            newCart = state.cart.filter(item => item.id !== productId);
         }
+
+        localStorage.setItem('cart', JSON.stringify(newCart)); // Update local storage
+        return { cart: newCart };
     }),
 
-    removeFromCart: (productId) => set((state) => ({
-        cart: state.cart.filter(product => product.id !== productId)
-    })),
+    removeFromCart: (productId) => set((state) => {
+        const newCart = state.cart.filter(product => product.id !== productId);
+        localStorage.setItem('cart', JSON.stringify(newCart)); // Update local storage
+        return { cart: newCart };
+    }),
 
-    addToWishlist: (product) => set((state) => ({
-        wishlist: [...state.wishlist, product]
-    })),
+    addToWishlist: (product) => set((state) => {
+        const newWishlist = [...state.wishlist, product];
+        localStorage.setItem('wishlist', JSON.stringify(newWishlist)); // Update local storage
+        return { wishlist: newWishlist };
+    }),
 
-    removeFromWishlist: (productId) => set((state) => ({
-        wishlist: state.wishlist.filter(product => product.id !== productId)
-    })),
+    removeFromWishlist: (productId) => set((state) => {
+        const newWishlist = state.wishlist.filter(product => product.id !== productId);
+        localStorage.setItem('wishlist', JSON.stringify(newWishlist)); // Update local storage
+        return { wishlist: newWishlist };
+    }),
 
     hasItemsInCart: () => {
         return (state) => state.cart.length > 0;
