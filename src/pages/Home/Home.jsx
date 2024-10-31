@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import MainLayout from '../../layouts/MainLayout';
 import useProductStore from '../../state/productStore';
 import Pagination from "../../components/Pagination/Pagination";
@@ -25,15 +25,19 @@ const Home = () => {
         setDropdownOpen(false);
     };
 
-    const filteredProducts = products.filter((product) => {
-        const matchesSearch = product.title.toLowerCase().includes(search.toLowerCase());
-        const matchesCategory = selectedCategory === 'All categories' || product.category === selectedCategory;
-        return matchesSearch && matchesCategory;
-    });
+    const filteredProducts = useMemo(() => {
+        return products.filter((product) => {
+            const matchesSearch = product.title.toLowerCase().includes(search.toLowerCase());
+            const matchesCategory = selectedCategory === 'All categories' || product.category === selectedCategory;
+            return matchesSearch && matchesCategory;
+        });
+    }, [products, search, selectedCategory]);
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = useMemo(() => {
+        const indexOfLastProduct = currentPage * productsPerPage;
+        const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+        return filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    }, [filteredProducts, currentPage, productsPerPage]);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
