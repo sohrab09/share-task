@@ -4,9 +4,11 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons/faCartShopping
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import useProductStore from '../state/productStore';
+import { useNavigate } from "react-router-dom";
 
 const CardLayout = ({ product }) => {
     const { addToCart, removeFromCart, addToWishlist, removeFromWishlist, cart, wishlist } = useProductStore();
+    const navigation = useNavigate();
 
     const title = product.title.length > 25 ? product.title.slice(0, 25) + "..." : product.title;
 
@@ -32,6 +34,10 @@ const CardLayout = ({ product }) => {
         } else {
             addToWishlist(product);
         }
+    };
+
+    const handleViewDetail = (product) => () => {
+        navigation(`/product/${product.id}`, { state: { product } });
     };
 
     return (
@@ -74,7 +80,7 @@ const CardLayout = ({ product }) => {
                         </button>
                     )}
 
-                    <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4">
+                    <button className="bg-transparent text-slate-100 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold w-3/4" onClick={handleViewDetail(product)}>
                         <FontAwesomeIcon icon={faEye} /> Quick View
                     </button>
                 </div>
