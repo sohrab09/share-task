@@ -1,8 +1,16 @@
 import PropTypes from "prop-types";
+import useProductStore from "../../state/productStore";
 
 const ProductDescription = ({ product }) => {
 
     const discountPrice = (product.price * (1 - product.discountPercentage / 100)).toFixed(2);
+
+    const { addToCart, removeFromCart, addToWishlist, removeFromWishlist } = useProductStore();
+
+    const isInCart = useProductStore(state => state.cart.some(item => item.id === product.id));
+
+    const isInWishlist = useProductStore(state => state.wishlist.some(item => item.id === product.id));
+
 
     return (
         <div className="lg:col-span-2">
@@ -42,12 +50,42 @@ const ProductDescription = ({ product }) => {
                 </ul>
             </div>
 
-            <button
-                type="button"
-                className="w-full mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold rounded-md"
-            >
-                Add to cart
-            </button>
+
+            {
+                isInCart
+                    ? <button
+                        type="button"
+                        className="min-w-8 mr-5 mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold rounded-md"
+                        onClick={() => removeFromCart(product.id)}
+                    >
+                        Remove from cart
+                    </button>
+                    : <button
+                        type="button"
+                        className="min-w-8 mr-5 mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold rounded-md"
+                        onClick={() => addToCart(product)}
+                    >
+                        Add to cart
+                    </button>
+            }
+
+            {
+                isInWishlist
+                    ? <button
+                        type="button"
+                        className="min-w-8 ml-5 mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold rounded-md"
+                        onClick={() => removeFromWishlist(product.id)}
+                    >
+                        Remove from wishlist
+                    </button>
+                    : <button
+                        type="button"
+                        className="min-w-8 ml-5 mt-8 px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold rounded-md"
+                        onClick={() => addToWishlist(product)}
+                    >
+                        Add to wishlist
+                    </button>
+            }
 
             <div className="mt-8">
                 <h3 className="text-xl font-bold text-gray-800">Reviews ({product.reviews.length})</h3>
